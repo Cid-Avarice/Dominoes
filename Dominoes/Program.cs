@@ -13,7 +13,7 @@ namespace Dominoes
         [STAThread]
         static void Main()
         {
-            // Hey there!
+            // Hey monkey!
             using (var game = new Game1())
                 game.Run();
         }
