@@ -13,11 +13,16 @@ namespace Dominoes
         [STAThread]
         static void Main()
         {
+            // Hey monkey!
             // Hey there!
+
 
             // I am ascending - Dardars 12/2/17
 
             //What a great time!
+
+
+            // What a great time!
 
             using (var game = new Game1())
                 game.Run();
