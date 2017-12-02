@@ -14,6 +14,8 @@ namespace Dominoes
         static void Main()
         {
             // Hey monkey!
+            // Hey there!
+            // What a great time!
             using (var game = new Game1())
                 game.Run();
         }
