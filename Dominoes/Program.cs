@@ -14,7 +14,11 @@ namespace Dominoes
         static void Main()
         {
             // Hey there!
+
             // I am ascending - Dardars 12/2/17
+
+            //What a great time!
+
             using (var game = new Game1())
                 game.Run();
         }
