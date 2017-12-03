@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Dominoes
 {
@@ -9,6 +10,10 @@ namespace Dominoes
     /// </summary>
     public class Game1 : Game
     {
+        Texture2D ballTexture;
+        Vector2 ballPosition;
+        float ballSpeed;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         
@@ -16,6 +21,17 @@ namespace Dominoes
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            
+            Window.AllowUserResizing = true;
+
+            Window.ClientSizeChanged += OnResize;
+            
+        }
+
+        public void OnResize(Object sender, EventArgs e)
+        {
+            graphics.PreferredBackBufferWidth = Window.ClientBounds.Width;
+            graphics.PreferredBackBufferHeight = Window.ClientBounds.Height;
         }
 
         /// <summary>
@@ -27,7 +43,9 @@ namespace Dominoes
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            ballPosition = new Vector2(graphics.PreferredBackBufferWidth / 2,
+            graphics.PreferredBackBufferHeight / 2);
+            ballSpeed = 500;
             base.Initialize();
         }
 
@@ -39,7 +57,7 @@ namespace Dominoes
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            ballTexture = Content.Load<Texture2D>("ball");
             // TODO: use this.Content to load your game content here
         }
 
@@ -63,6 +81,22 @@ namespace Dominoes
                 Exit();
 
             // TODO: Add your update logic here
+            var kstate = Keyboard.GetState();
+
+            if (kstate.IsKeyDown(Keys.Up))
+                ballPosition.Y -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (kstate.IsKeyDown(Keys.Down))
+                ballPosition.Y += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (kstate.IsKeyDown(Keys.Left))
+                ballPosition.X -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (kstate.IsKeyDown(Keys.Right))
+                ballPosition.X += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            ballPosition.X = Math.Min(Math.Max(ballTexture.Width / 2, ballPosition.X), graphics.PreferredBackBufferWidth - ballTexture.Width / 2);
+            ballPosition.Y = Math.Min(Math.Max(ballTexture.Height / 2, ballPosition.Y), graphics.PreferredBackBufferHeight - ballTexture.Height / 2);
 
             base.Update(gameTime);
         }
@@ -76,6 +110,9 @@ namespace Dominoes
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            spriteBatch.Draw(ballTexture, ballPosition, null, Color.White, 0f, new Vector2(ballTexture.Width / 2, ballTexture.Height / 2), Vector2.One, SpriteEffects.None, 0f);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
