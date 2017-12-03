@@ -105,7 +105,7 @@ namespace Dominoes
                 {
                     if (previousKeyboardState.IsKeyUp(key))
                     {
-                        if (key == Keys.Back)
+                        if (key == Keys.Back && name.Length > 0)
                         {
                             // add key to the list
                             name = name.Substring(0, name.Length - 1);
