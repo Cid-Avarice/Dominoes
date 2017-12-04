@@ -6,30 +6,21 @@ using System.Threading.Tasks;
 
 namespace Dominoes
 {
-    class Tile
+    public class Tile
     {
         private int side1;
         private int side2;
-        private bool isDouble;
-        private int totalpoints;
         private string name;
 
         public Tile(int side1, int side2)
         {
             this.side1 = side1;
             this.side2 = side2;
-            totalpoints = side1 + side2;
-            if (side1 == side2)
-            {
-                isDouble = true;
-            }
-            else
-                isDouble = false;
         }
 
         public int GetTotalPoints()
         {
-            return totalpoints;
+            return side1 + side2;
         }
 
         public int GetSide1()
@@ -49,7 +40,7 @@ namespace Dominoes
 
         public bool GetIsDouble()
         {
-            return isDouble;
+            return side1 == side2;
         }
 
         public void AssignToPlayer(string name)
