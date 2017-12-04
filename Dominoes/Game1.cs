@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 
 namespace Dominoes
 {
@@ -15,14 +14,15 @@ namespace Dominoes
         Texture2D background;
         private SpriteFont messageFont;
         KeyboardState currentKeyboardState, previousKeyboardState;
-        string name = "";
+        string player1Name = "";
         bool nameEntered = false;
+        Player[] players = { new Player(""), new Player("Guido", "Team 2"), new Player("Carlos"), new Player("Dario", "Team 2") };
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            this.IsMouseVisible = true;
+            IsMouseVisible = true;
         }
 
         /// <summary>
@@ -86,54 +86,89 @@ namespace Dominoes
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-
             spriteBatch.Draw(background, new Vector2(0, 0));
-            if(!nameEntered)
+            if (!nameEntered)
                 spriteBatch.DrawString(messageFont, "Welcome to Dominoes. What is your name?", new Vector2(0, 0), Color.White);
             else
-                spriteBatch.DrawString(messageFont, $"Welcome {name}.", new Vector2(0, 0), Color.White);
+            {
+                for(int i = 0; i < players.Length; i++)
+                {
+                    float xForName = 0f;
+                    float yForName = 0f;
 
+                    switch (i)
+                    {
+                        case 0:
+                            xForName = GraphicsDevice.Viewport.Width / 2 - messageFont.MeasureString(players[i].ToString()).Length() / 2;
+                            yForName = GraphicsDevice.Viewport.Height - messageFont.MeasureString(players[i].ToString()).Y;
+                            break;
+                        case 1:
+                            xForName = GraphicsDevice.Viewport.Width - messageFont.MeasureString(players[i].ToString()).Length();
+                            yForName = GraphicsDevice.Viewport.Height / 2 - messageFont.MeasureString(players[i].ToString()).Y / 2;
+                            break;
+                        case 2:
+                            xForName = GraphicsDevice.Viewport.Width / 2 - messageFont.MeasureString(players[i].ToString()).Length() / 2;
+                            yForName = 0;
+                            break;
+                        default:
+                            xForName = 0;
+                            yForName = GraphicsDevice.Viewport.Height / 2 - messageFont.MeasureString(players[i].ToString()).Y / 2;
+                            break;
+                    }
+
+                    spriteBatch.DrawString(
+                        messageFont,
+                        players[i].ToString(),
+                        new Vector2(xForName, yForName),
+                        Color.White);
+                }
+            }
+
+            if(!nameEntered)
+                EnteringName();
+
+            spriteBatch.End();
+
+            base.Draw(gameTime);
+        }
+
+        private void EnteringName()
+        {
             previousKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
 
             Keys[] pressedKeys;
             pressedKeys = currentKeyboardState.GetPressedKeys();
-
-            if (!nameEntered)
+            
+            foreach (Keys key in pressedKeys)
             {
-                foreach (Keys key in pressedKeys)
+                if (previousKeyboardState.IsKeyUp(key))
                 {
-                    if (previousKeyboardState.IsKeyUp(key))
+                    if (key == Keys.Back && player1Name.Length > 0)
                     {
-                        if (key == Keys.Back && name.Length > 0)
-                        {
-                            // add key to the list
-                            name = name.Substring(0, name.Length - 1);
-                        }
-                        else if (key == Keys.Space && name.Length < 20)
-                        {
-                            // add space
-                            name += " ";
-                        }
-                        else if (key == Keys.Enter)
-                        {
-                            // finished, save name
-                            name = name.Trim();
-                            nameEntered = true;
-                        }
-                        else if (key >= Keys.A && key <= Keys.Z && name.Length < 20)
-                        {
-                            name += key;
-                        }
+                        // add key to the list
+                        player1Name = player1Name.Substring(0, player1Name.Length - 1);
+                    }
+                    else if (key == Keys.Space && player1Name.Length < 20)
+                    {
+                        // add space
+                        player1Name += " ";
+                    }
+                    else if (key == Keys.Enter)
+                    {
+                        // finished, save name
+                        player1Name = player1Name.Trim();
+                        nameEntered = true;
+                        players[0] = new Player(player1Name);
+                    }
+                    else if (key >= Keys.A && key <= Keys.Z && player1Name.Length < 20)
+                    {
+                        player1Name += key;
                     }
                 }
-
-                spriteBatch.DrawString(messageFont, name, new Vector2(0, 30), Color.White);
             }
 
-            spriteBatch.End();
-
-            base.Draw(gameTime);
+            spriteBatch.DrawString(messageFont, player1Name, new Vector2(0, 30), Color.White);
         }
     }
 }
