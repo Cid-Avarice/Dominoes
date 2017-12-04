@@ -49,6 +49,7 @@ namespace Dominoes
             messageFont = Content.Load<SpriteFont>("WelcomeMessageFont");
             background = Content.Load<Texture2D>("green");
 
+
             // TODO: use this.Content to load your game content here
         }
 
