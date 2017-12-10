@@ -124,6 +124,7 @@ namespace Dominoes
                         new Vector2(xForName, yForName),
                         Color.White);
                 }
+                board.StartRound();
                 ShowTiles();
             }
 
@@ -141,7 +142,7 @@ namespace Dominoes
             int counter = 0;
             foreach(Tile tile in board.TileCollection)
             {
-                if (counter % 6 == 0 && counter != 0)
+                if (counter % 7 == 0 && counter != 0)
                 {
                     tiles += $"\n{tile} ";
                 }

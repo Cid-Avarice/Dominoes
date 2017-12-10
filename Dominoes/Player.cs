@@ -1,6 +1,6 @@
 ﻿using Dominoes;
 using System;
-
+using System.Collections.Generic;
 
 public class Player
 {
@@ -8,7 +8,7 @@ public class Player
     public readonly string TeamName;
 
     private int score = 0;
-    public Tile[] hand = new Tile[7];
+    public List<Tile> hand = new List<Tile>();
 
     // need to address tiles in hand of player
     public Player(string name, string teamName = "Team 1")
@@ -27,7 +27,7 @@ public class Player
         return score;
     }
 
-    public void AssignHand(Tile[] given)
+    public void AssignHand(List<Tile> given)
     {
         hand = given;
     }

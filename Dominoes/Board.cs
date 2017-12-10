@@ -9,7 +9,7 @@ namespace Dominoes
     public class Board
     {
         public Player[] players;
-        public Tile[] TileCollection;
+        public List<Tile> TileCollection;
         public int team1points;
         public int team2points;
         public int round;
@@ -23,17 +23,42 @@ namespace Dominoes
             round = 1;
         }
 
+        public void StartRound()
+        {
+            foreach (Player player in players)
+            {
+                List<Tile> tempHand = new List<Tile>();
+                Random generator = new Random();
+
+                for (int i = 0; i <= 6; i++)
+                {
+                   
+
+                    if (TileCollection.Count != 0)
+                    {
+                        int a = generator.Next(0, TileCollection.Count - 1);
+                        tempHand.Add(TileCollection.ElementAt(a));
+                        TileCollection.RemoveAt(a);
+                    }
+                   
+                }
+
+                player.AssignHand(tempHand);
+            }
+        }
+
         private void FillCollection()
         {
-            Tile[] tempCollection = new Tile[28];
-            int counter = 0; 
+            List<Tile> tempCollection = new List<Tile>();
+
+            
 
             for (int i = 0; i <= 6; i++)
             {
                 for (int j = 6; j >= i; j--)
                 {
                     Tile TempTile = new Tile(i, j);
-                    tempCollection[counter++] = TempTile;
+                    tempCollection.Add(TempTile);
                 }
           
             }
