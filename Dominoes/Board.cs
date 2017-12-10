@@ -8,22 +8,20 @@ namespace Dominoes
 {
     public class Board
     {
-        private Player[] members;
-        private Tile[] TileCollection;
+        public Player[] players;
+        public Tile[] TileCollection;
         public int team1points;
         public int team2points;
-        public int rounds;
-
+        public int round;
 
         public Board(Player[] people)
         {
-            this.FillCollection();
-            members = people;
+            FillCollection();
+            players = people;
             team1points = 0;
             team2points = 0;
-            rounds = 1;
+            round = 1;
         }
-
 
         private void FillCollection()
         {
@@ -32,14 +30,10 @@ namespace Dominoes
 
             for (int i = 0; i <= 6; i++)
             {
-                
-
                 for (int j = 6; j >= i; j--)
                 {
-
                     Tile TempTile = new Tile(i, j);
                     tempCollection[counter++] = TempTile;
-                    
                 }
           
             }

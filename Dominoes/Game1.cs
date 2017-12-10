@@ -17,6 +17,7 @@ namespace Dominoes
         string player1Name = "";
         bool nameEntered = false;
         Player[] players = { new Player(""), new Player("Guido", "Team 2"), new Player("Carlos"), new Player("Dario", "Team 2") };
+        Board board;
 
         public Game1()
         {
@@ -34,7 +35,7 @@ namespace Dominoes
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            board = new Board(players);
             base.Initialize();
         }
 
@@ -123,14 +124,38 @@ namespace Dominoes
                         new Vector2(xForName, yForName),
                         Color.White);
                 }
+                ShowTiles();
             }
 
-            if(!nameEntered)
+            if (!nameEntered)
                 EnteringName();
 
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void ShowTiles()
+        {
+            string tiles = "";
+            int counter = 0;
+            foreach(Tile tile in board.TileCollection)
+            {
+                if (counter % 6 == 0 && counter != 0)
+                {
+                    tiles += $"\n{tile} ";
+                }
+                else
+                {
+                    tiles += $"{tile} ";
+                }
+                counter++;
+            }
+            spriteBatch.DrawString(
+                        messageFont,
+                        tiles,
+                        new Vector2(50, 50),
+                        Color.White);
         }
 
         private void EnteringName()
@@ -160,7 +185,7 @@ namespace Dominoes
                         // finished, save name
                         player1Name = player1Name.Trim();
                         nameEntered = true;
-                        players[0] = new Player(player1Name);
+                        board.players[0] = new Player(player1Name);
                     }
                     else if (key >= Keys.A && key <= Keys.Z && player1Name.Length < 20)
                     {

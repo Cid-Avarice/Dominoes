@@ -4,9 +4,6 @@ using System;
 
 public class Player
 {
-
-
- 
     public readonly string Name;
     public readonly string TeamName;
 
@@ -30,7 +27,6 @@ public class Player
         return score;
     }
 
-
     public void AssignHand(Tile[] given)
     {
         hand = given;
@@ -40,5 +36,4 @@ public class Player
     {
         return $"{Name} : {score}";
     }
-
 }

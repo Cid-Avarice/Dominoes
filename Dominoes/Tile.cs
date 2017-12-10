@@ -47,5 +47,10 @@ namespace Dominoes
         {
             this.name = name;
         }
+
+        public override string ToString()
+        {
+            return $"{side1}-{side2}";
+        }
     }
 }
