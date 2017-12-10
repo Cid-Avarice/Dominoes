@@ -2,18 +2,22 @@
 using System;
 
 
-public class Player1
+public class Player
 {
 
-    public readonly string name;
-    public readonly string teamName;
+
+ 
+    public readonly string Name;
+    public readonly string TeamName;
+
     private int score = 0;
     public Tile[] hand = new Tile[7];
 
     // need to address tiles in hand of player
-    public Player1(string name, string teamName = "Team 1")
+    public Player(string name, string teamName = "Team 1")
     {
-        // call user input and return values? 
+        Name = name;
+        teamName = TeamName;
     }
     
     public void AddScore(int s)
@@ -26,9 +30,15 @@ public class Player1
         return score;
     }
 
+
     public void AssignHand(Tile[] given)
     {
         hand = given;
+    }
+
+    public override string ToString()
+    {
+        return $"{Name} : {score}";
     }
 
 }
