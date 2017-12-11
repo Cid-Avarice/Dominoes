@@ -124,7 +124,6 @@ namespace Dominoes
                         new Vector2(xForName, yForName),
                         Color.White);
                 }
-                board.StartRound();
                 ShowTiles();
             }
 
@@ -139,19 +138,16 @@ namespace Dominoes
         private void ShowTiles()
         {
             string tiles = "";
-            int counter = 0;
-            foreach(Tile tile in board.TileCollection)
+            foreach(Player player in board.players)
             {
-                if (counter % 7 == 0 && counter != 0)
-                {
-                    tiles += $"\n{tile} ";
-                }
-                else
+                tiles += $"{player.Name} : ";
+                foreach(Tile tile in player.hand)
                 {
                     tiles += $"{tile} ";
                 }
-                counter++;
+                tiles += "\n";
             }
+
             spriteBatch.DrawString(
                         messageFont,
                         tiles,
@@ -187,6 +183,7 @@ namespace Dominoes
                         player1Name = player1Name.Trim();
                         nameEntered = true;
                         board.players[0] = new Player(player1Name);
+                        board.StartRound();
                     }
                     else if (key >= Keys.A && key <= Keys.Z && player1Name.Length < 20)
                     {

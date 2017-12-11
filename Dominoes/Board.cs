@@ -32,17 +32,13 @@ namespace Dominoes
 
                 for (int i = 0; i <= 6; i++)
                 {
-                   
-
                     if (TileCollection.Count != 0)
                     {
                         int a = generator.Next(0, TileCollection.Count - 1);
                         tempHand.Add(TileCollection.ElementAt(a));
                         TileCollection.RemoveAt(a);
                     }
-                   
                 }
-
                 player.AssignHand(tempHand);
             }
         }
@@ -51,8 +47,6 @@ namespace Dominoes
         {
             List<Tile> tempCollection = new List<Tile>();
 
-            
-
             for (int i = 0; i <= 6; i++)
             {
                 for (int j = 6; j >= i; j--)
@@ -60,7 +54,6 @@ namespace Dominoes
                     Tile TempTile = new Tile(i, j);
                     tempCollection.Add(TempTile);
                 }
-          
             }
 
             TileCollection = tempCollection;
